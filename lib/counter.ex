@@ -1,4 +1,4 @@
-defmodule Main do
+defmodule Counter do
 
   # MODEL
 
