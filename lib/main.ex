@@ -1,14 +1,5 @@
 defmodule Main do
 
-  # def main do
-  #   StartApp.start(
-  #     %{model: @initial_model,
-  #       view: &view/1,
-  #       update: &update/2
-  #     })
-  # end
-
-
   # MODEL
 
   # type alias Model
@@ -33,6 +24,15 @@ defmodule Main do
 
   def view(model) do
     to_string(model)
+  end
+
+
+  def main do
+    StartApp.start(
+      %{model: @initial_model,
+        view: &view/1,
+        update: &update/2
+      })
   end
 
 end
