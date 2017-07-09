@@ -1,14 +1,15 @@
 defmodule State do
   @moduledoc """
-  Collect all the triggered messages and ensures that they are executed
+  Collects all the triggered messages and ensures they are executed
   in the correct order.
   """
   use GenServer
 
   # Client API
 
-  def start_link(%{model: model, view: _v, update: _u} = config) do
-    GenServer.start_link(__MODULE__, model)
+  # def start_link(%{model: model, view: _v, update: _u} = config) do
+    def start_link(module) do
+    GenServer.start_link(__MODULE__, module.model)
   end
 
   def step(pid, msg) do
@@ -29,16 +30,15 @@ defmodule State do
 
   # Server (callbacks)
 
-  def handle_call({:step, msg}, _from, state) do
-    IO.puts "######"
-    # IO.inspect state
-    # IO.inspect
+  def handle_call({:step, msg}, _from, state) when msg in [:Increment, :Decrement] do
     # new_state = %{state | model: state.update(msg, state.model)}
-    new_state = apply(Main, :update, [msg, state])
+    new_state = apply(Counter, :update, [msg, state])
 
-    IO.puts "@@@@@"
+    {:reply, {:ok, new_state}, new_state}
+  end
 
-    {:reply, "asd", new_state}
+  def handle_call({:step, _msg}, _from, state) do
+    {:reply, {:error, :invalid_message}, state}
   end
 
   def handle_call(:pop, _from, [h | t]) do
