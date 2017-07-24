@@ -2,7 +2,6 @@ defmodule Counter do
 
   # MODEL
 
-  # type alias Model
   @type model :: integer
 
   @initial_model 0
@@ -14,7 +13,6 @@ defmodule Counter do
 
   # UPDATE
 
-  # type Msg
   @type msg :: :Increment | :Decrement
 
   def messages, do:
@@ -41,10 +39,6 @@ defmodule Counter do
 
   def main do
     StartApp.start(__MODULE__)
-    # %{model: @initial_model,
-    #   view: &view/1,
-    #   update: &update/2
-    # })
   end
 
 end

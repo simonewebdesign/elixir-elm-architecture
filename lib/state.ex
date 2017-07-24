@@ -23,7 +23,6 @@ defmodule State do
 
   # Client API
 
-  # def start_link(%{model: model, view: _v, update: _u} = config) do
   def start_link(module) do
     GenServer.start_link(__MODULE__, %{
       module: module,
@@ -40,13 +39,6 @@ defmodule State do
     GenServer.call(pid, :undo)
   end
 
-  # def push(pid, evt) do
-    # GenServer.call(pid, {:push, evt})
-  # end
-
-  # def pop(pid) do
-    # GenServer.call(pid, :pop)
-  # end
 
   # Server (callbacks)
 
@@ -56,7 +48,6 @@ defmodule State do
 
     {:reply, {:ok, new_model}, %{state | frames: [new_frame|state.frames]}}
   end
-
   def handle_call({:step, _msg}, _from, state) do
     {:reply, {:error, :invalid_message}, state}
   end
@@ -71,6 +62,7 @@ defmodule State do
     {:reply, h, t}
   end
 
+
   # Private
 
   defp update_model(msg, %{module: mod, frames: [], initial_model:  model}) do
@@ -82,13 +74,4 @@ defmodule State do
 
   defp undo_model(%{frames: [ _ | [head|tail] ]}), do: {head.model, tail}
   defp undo_model(%{frames: [], initial_model: model}), do: {model, []}
-
-  # def handle_call(request, from, state) do
-  #   # Call the default implementation from GenServer
-  #   super(request, from, state)
-  # end
-
-  # def handle_cast(request, state) do
-  #   super(request, state)
-  # end
 end

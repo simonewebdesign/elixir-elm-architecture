@@ -2,13 +2,6 @@ defmodule CounterTest do
   use ExUnit.Case
   import Counter
 
-  # @messages [
-  #   :Increment,
-  #   :Increment,
-  #   :Increment,
-  #   :Decrement
-  # ]
-
   @initial_state 0
 
   test "Initial state is zero" do

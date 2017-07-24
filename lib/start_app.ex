@@ -1,6 +1,6 @@
 defmodule StartApp do
-  # figure out where to feed messages.
+  @spec start(module) :: {:ok, term}
   def start(config) do
-    {:ok, pid} = State.start_link(config)
+    {:ok, _pid} = State.start_link(config)
   end
 end
