@@ -1,5 +1,5 @@
 defmodule CounterTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
   import Counter
 
   @initial_state 0

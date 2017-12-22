@@ -19,6 +19,7 @@ defmodule State do
       }
   """
   use GenServer
+  alias State.Impl
 
 
   # Client API
@@ -42,36 +43,20 @@ defmodule State do
 
   # Server (callbacks)
 
-  def handle_call({:step, msg}, _from, state) when msg in [:Increment, :Decrement] do
-    new_model = update_model(msg, state)
-    new_frame = %{message: msg, model: new_model}
+  def handle_call({:step, msg}, _from, state) when is_atom(msg) or is_tuple(msg) do
+      {new_model, new_frame} = Impl.step(msg, state)
 
-    {:reply, {:ok, new_model}, %{state | frames: [new_frame|state.frames]}}
-  end
-  def handle_call({:step, _msg}, _from, state) do
-    {:reply, {:error, :invalid_message}, state}
+      {:reply, {:ok, new_model}, %{state | frames: [new_frame|state.frames]}}
   end
 
 
   def handle_call(:undo, _from, state) do
-    {previous_model, frames} = undo_model(state)
+    {previous_model, frames} = Impl.undo(state)
+
     {:reply, {:ok, previous_model}, %{state | frames: frames}}
   end
 
   def handle_call(:pop, _from, [h | t]) do
     {:reply, h, t}
   end
-
-
-  # Private
-
-  defp update_model(msg, %{module: mod, frames: [], initial_model:  model}) do
-    apply mod, :update, [msg, model]
-  end
-  defp update_model(msg, %{module: mod, frames: [head|_], initial_model: _}) do
-    apply mod, :update, [msg, head.model]
-  end
-
-  defp undo_model(%{frames: [ _ | [head|tail] ]}), do: {head.model, tail}
-  defp undo_model(%{frames: [], initial_model: model}), do: {model, []}
 end
