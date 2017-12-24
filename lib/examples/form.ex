@@ -27,6 +27,7 @@ defmodule Form do
      | {:PasswordAgain, String.t}
 
 
+  @spec update(msg, model) :: model
   def update(msg, model) do
     case msg do
       {:Name, name} ->
@@ -43,6 +44,7 @@ defmodule Form do
 
   # VIEW
 
+  @spec view(model) :: String.t
   def view(model) do
     """
     Name:              #{model.name}
