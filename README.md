@@ -1,3 +1,12 @@
 # The Elm Architecture in Elixir
 
-**Nothing to see here yet. Come back later!**
+An attempt to recreate TEA (The Elm Architecture) in Elixir.
+
+## Getting started
+
+TODO
+
+## Wishlist
+
+- [ ] Define a Struct `%Msg{}` at compile time with a macro
+- [ ] 100% test coverage
