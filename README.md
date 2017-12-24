@@ -10,3 +10,4 @@ TODO
 
 - [ ] Define a Struct `%Msg{}` at compile time with a macro
 - [ ] 100% test coverage
+- [ ] Commands (Effects)
